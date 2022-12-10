@@ -1,0 +1,7 @@
+*.sqlite3
+__pycache__/
+.env
+
+*.sublime-project
+*.sublime-workspace
+pyrightconfig.json
