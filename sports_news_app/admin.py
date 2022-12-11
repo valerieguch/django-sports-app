@@ -1,7 +1,6 @@
 from django.contrib import admin
-from .models import Author, Tag, Article
+from .models import Author, Tag, Article, Comment
 
-# admin.site.register(Article)
 
 @admin.register(Author)
 class TagAdmin(admin.ModelAdmin):
@@ -23,3 +22,9 @@ class ArticleAdmin(admin.ModelAdmin):
 class TagAdmin(admin.ModelAdmin):
     search_fields = ['name__icontains',]
     prepopulated_fields = {'slug': ('name',)}
+
+
+@admin.register(Comment)
+class CommentAdmin(admin.ModelAdmin):
+    list_display = ('author', 'body', 'article')
+    search_fields = ['body__icontains',]

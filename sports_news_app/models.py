@@ -38,15 +38,16 @@ STATUS = (
     (1, "Опубликовано")
 )
 
+
 class Article(models.Model):
     title      = models.CharField(max_length=200, unique=True, null=True)
     slug       = models.SlugField(max_length=200, unique=True, null=True)
-    author     = models.ForeignKey(Author, null=True, on_delete=models.SET_NULL, related_name='articles')
+    author     = models.ForeignKey(Author, null=True, blank=True, on_delete=models.SET_NULL, related_name='articles')
     created_on = models.DateTimeField(auto_now_add=True)
     updated_on = models.DateTimeField(auto_now=True)
     content    = models.TextField(null=True)
     status     = models.IntegerField(choices=STATUS, default=0)
-    tags       = models.ManyToManyField(Tag)
+    tags       = models.ManyToManyField(Tag, blank=True)
 
     def __str__(self):
         return self.title
@@ -55,4 +56,24 @@ class Article(models.Model):
         verbose_name        = 'Статья'
         verbose_name_plural = 'Статьи'
 
-# TODO News, User, Comment
+
+class Comment(models.Model):
+    article    = models.ForeignKey(Article, on_delete=models.CASCADE, related_name='comments')
+    author     = models.ForeignKey(Author, null=True, on_delete=models.SET_NULL, related_name='comments')
+    created_on = models.DateTimeField(auto_now_add=True)
+    body       = models.TextField()
+    active     = models.BooleanField(default=True)
+
+    def __str__(self):
+        if not self.body:
+            return ''
+        if len(self.body) < 50:
+            return self.body
+        return self.body[:47] + '...'
+
+    class Meta:
+        ordering = ['created_on']
+        verbose_name        = 'Комментарий'
+        verbose_name_plural = 'Комментарии'
+
+# TODO News, Regular user
