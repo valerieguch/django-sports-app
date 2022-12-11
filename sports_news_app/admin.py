@@ -10,7 +10,7 @@ class TagAdmin(admin.ModelAdmin):
 
 @admin.register(Article)
 class ArticleAdmin(admin.ModelAdmin):
-    list_display = ('title', 'slug', 'status','created_on')
+    list_display = ('title', 'status','created_on')
     list_filter = ('status',)
     search_fields = ['title__icontains', 'content__icontains']
     prepopulated_fields = {'slug': ('title',)}
