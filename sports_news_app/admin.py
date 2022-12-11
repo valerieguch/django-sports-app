@@ -10,10 +10,13 @@ class TagAdmin(admin.ModelAdmin):
 
 @admin.register(Article)
 class ArticleAdmin(admin.ModelAdmin):
-    list_display = ('title', 'status','created_on')
+    list_display = ('title', 'tags_list', 'status','created_on')
     list_filter = ('status',)
     search_fields = ['title__icontains', 'content__icontains']
     prepopulated_fields = {'slug': ('title',)}
+
+    def tags_list(self, obj):
+        return ", ".join([t.name for t in obj.tags.all()])
 
 
 @admin.register(Tag)
