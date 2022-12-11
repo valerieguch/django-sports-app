@@ -5,8 +5,9 @@ from django.contrib.auth.models import User, Group
 class ArticleSerializer(serializers.ModelSerializer):
     class Meta:
         model = Article
-        fields = '__all__'
-
+        # fields = '__all__'
+        # fields = ["title", "slug", "author", "created_on", "updated_on", "content", "status", "tags",]
+        fields = ["title", "slug", "author", "created_on", "updated_on", "status", "tags"]
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
