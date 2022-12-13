@@ -18,27 +18,26 @@ class GroupSerializer(serializers.HyperlinkedModelSerializer):
 class AuthorSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Author
-        fields = '__all__'
-        # fields = ['user']
+        # fields = '__all__'
+        fields = ['user']
 
 
 class TagSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Tag
-        fields = '__all__'
-        # fields = ['name', 'slug']
+        # fields = '__all__'
+        fields = ['name', 'slug']
 
 
 class ArticleSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Article
         # fields = '__all__'
-        # fields = ["title", "slug", "author", "created_on", "updated_on", "content", "status", "tags",]
-        fields = ["title", "slug", "created_on", "updated_on", "status"]
+        fields = ["title", "slug", "author", "created_on", "updated_on", "content", "status", "tags"]
 
 
 class CommentSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Comment
-        fields = '__all__'
-        # fields = ["article", "author", "created_on", "body", "active"]
+        # fields = '__all__'
+        fields = ["article", "author", "created_on", "body", "active"]
