@@ -6,8 +6,9 @@ from rest_framework.decorators import api_view
 from rest_framework import viewsets
 from rest_framework import permissions
 
-from sports_news_app.models import Article
-from .serializers import ArticleSerializer, UserSerializer, GroupSerializer
+from sports_news_app.models import Author, Tag, Article, Comment
+from .serializers import  UserSerializer, GroupSerializer, AuthorSerializer, TagSerializer, ArticleSerializer, CommentSerializer
+
 
 # TODO seems like I have to use `action` decorator instead
 @api_view(['GET'])
@@ -45,7 +46,25 @@ class GroupViewSet(viewsets.ModelViewSet):
     permission_classes = [permissions.IsAuthenticated]
 
 
+class AuthorViewSet(viewsets.ModelViewSet):
+    queryset = Author.objects.all()
+    serializer_class = AuthorSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+
+class TagViewSet(viewsets.ModelViewSet):
+    queryset = Tag.objects.all()
+    serializer_class = TagSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+
 class ArticleViewSet(viewsets.ModelViewSet):
     queryset = Article.objects.all()
     serializer_class = ArticleSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+
+class CommentViewSet(viewsets.ModelViewSet):
+    queryset = Comment.objects.all()
+    serializer_class = CommentSerializer
     permission_classes = [permissions.IsAuthenticated]

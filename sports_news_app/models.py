@@ -1,5 +1,4 @@
 from django.db import models
-from django.utils import timezone
 from django.contrib.auth.models import User
 
 
@@ -34,7 +33,7 @@ class Tag(models.Model):
 
 
 STATUS = (
-    (0, "Черновик"),
+    (0, "Черновик"),     # The default status
     (1, "Опубликовано")
 )
 
@@ -46,7 +45,7 @@ class Article(models.Model):
     created_on = models.DateTimeField(auto_now_add=True)
     updated_on = models.DateTimeField(auto_now=True)
     content    = models.TextField(null=True)
-    status     = models.IntegerField(choices=STATUS, default=0)
+    status     = models.IntegerField(choices=STATUS, default=STATUS[0][0])
     tags       = models.ManyToManyField(Tag, blank=True)
 
     def __str__(self):
