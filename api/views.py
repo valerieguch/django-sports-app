@@ -5,6 +5,7 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from rest_framework import viewsets
 from rest_framework import permissions
+from rest_framework.decorators import action
 
 from sports_news_app.models import Author, Tag, Article, Comment
 from .serializers import  UserSerializer, GroupSerializer, AuthorSerializer, TagSerializer, ArticleSerializer, CommentSerializer
@@ -62,6 +63,12 @@ class ArticleViewSet(viewsets.ModelViewSet):
     queryset = Article.objects.all()
     serializer_class = ArticleSerializer
     permission_classes = [permissions.IsAuthenticated]
+
+    @action(methods=['GET'], detail=False)
+    def get_data(self, request, **kwargs):
+        data = dict()
+        data['info'] = 'тут можем вернуть какие-то данные'
+        return Response(data)
 
 
 class CommentViewSet(viewsets.ModelViewSet):
