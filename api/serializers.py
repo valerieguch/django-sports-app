@@ -28,8 +28,9 @@ class TagSerializer(serializers.HyperlinkedModelSerializer):
         # fields = '__all__'
         fields = ['name', 'slug']
 
-    # TODO maybe this should be active only with POST or UPDATE requests?
     def validate_name(self, name):
+        # method = self.context['request'].method
+        # if method in ['POST', 'PUT', 'PATCH'] and len(name) < 3:
         if len(name) < 3:
             raise serializers.ValidationError("Имя тега короче 3 знаков.")
         return True
