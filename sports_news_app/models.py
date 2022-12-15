@@ -32,13 +32,12 @@ class Tag(models.Model):
         verbose_name_plural = 'Теги'
 
 
-STATUS = (
-    (0, "Черновик"),     # The default status
-    (1, "Опубликовано")
-)
-
-
 class Article(models.Model):
+    STATUS = (
+        (0, "Черновик"),     # The default status
+        (1, "Опубликовано")
+    )
+
     title      = models.CharField(max_length=200, unique=True, null=True)
     slug       = models.SlugField(max_length=200, unique=True, null=True)
     author     = models.ForeignKey(Author, null=True, blank=True, on_delete=models.SET_NULL, related_name='articles')
