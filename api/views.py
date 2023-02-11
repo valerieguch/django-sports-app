@@ -3,15 +3,11 @@ from django.contrib.auth.models import User, Group
 
 from rest_framework.response import Response
 # from rest_framework.decorators import api_view
-from rest_framework import viewsets
-from rest_framework import permissions
-from rest_framework import status
+from rest_framework import viewsets, permissions, status, filters
 from rest_framework.decorators import action
 
 from sports_news_app.models import Author, Tag, Article, Comment
-from .serializers import  UserSerializer, GroupSerializer, AuthorSerializer, TagSerializer, ArticleSerializer, CommentSerializer
-
-import json
+from .serializers import UserSerializer, GroupSerializer, AuthorSerializer, TagSerializer, ArticleSerializer, CommentSerializer
 
 # TODO seems like I have to use `action` decorator instead
 # @api_view(['GET'])
@@ -38,6 +34,9 @@ class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all().order_by('-date_joined')
     serializer_class = UserSerializer
     permission_classes = [permissions.IsAuthenticated]
+    # NOTE: фильтрация - SearchFilter
+    filter_backends = [filters.SearchFilter]
+    search_fields = ['username', 'email']
 
 
 class GroupViewSet(viewsets.ModelViewSet):
@@ -67,6 +66,15 @@ class ArticleViewSet(viewsets.ModelViewSet):
     # TODO allow only article moderators
     permission_classes = [permissions.IsAuthenticated]
 
+    # NOTE: фильтрация по GET параметрам в URL
+    # Пример: api/articles/?author=vasily
+    def get_queryset(self):
+        queryset = self.queryset
+        author = self.request.query_params.get('author')
+        if author is not None:
+            queryset = queryset.filter(author__user__username=author)
+        return queryset
+
     # NOTE: метод для списка
     @action(methods=['GET'], detail=False)
     def stats(self, request):
@@ -84,7 +92,7 @@ class ArticleViewSet(viewsets.ModelViewSet):
                             status=status.HTTP_400_BAD_REQUEST)
 
         article_status = request.data["status"]
-        if article_status == "draft" and article_status == "published":
+        if article_status != "draft" and article_status != "published":
             return Response({"detail": "Неизвестный \"status\""},
                             status=status.HTTP_400_BAD_REQUEST)
 
@@ -99,3 +107,8 @@ class CommentViewSet(viewsets.ModelViewSet):
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
     permission_classes = [permissions.IsAuthenticated]
+
+    # NOTE: фильтрация - результаты, относящиеся к текущему пользователю
+    def get_queryset(self):
+        user = self.request.user
+        return Comment.objects.filter(author=user)
