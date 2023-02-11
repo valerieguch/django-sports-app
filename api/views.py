@@ -78,6 +78,7 @@ class ArticleViewSet(viewsets.ModelViewSet):
     # NOTE: метод для одного объекта
     @action(methods=['POST'], detail=True)
     def set_status(self, request, pk=None):
+        # TODO this should be done with a custom serializer
         if "status" not in request.data:
             return Response({"detail": "Ключ \"status\" не найден"},
                             status=status.HTTP_400_BAD_REQUEST)
