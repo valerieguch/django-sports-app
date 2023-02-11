@@ -33,7 +33,9 @@ class Tag(models.Model):
 
 
 class Article(models.Model):
-    STATUS = (
+    DRAFT = 0
+    PUBLISHED = 1
+    STATUS_CHOICES = (
         (0, "Черновик"),     # The default status
         (1, "Опубликовано")
     )
@@ -44,7 +46,7 @@ class Article(models.Model):
     created_on = models.DateTimeField(auto_now_add=True)
     updated_on = models.DateTimeField(auto_now=True)
     content    = models.TextField(null=True)
-    status     = models.IntegerField(choices=STATUS, default=STATUS[0][0])
+    status     = models.IntegerField(choices=STATUS_CHOICES, default=DRAFT)
     tags       = models.ManyToManyField(Tag, blank=True)
 
     def __str__(self):

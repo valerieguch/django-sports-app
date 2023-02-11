@@ -28,6 +28,7 @@ class TagSerializer(serializers.HyperlinkedModelSerializer):
         # fields = '__all__'
         fields = ['name', 'slug']
 
+    # NOTE: своя логика валидации
     def validate_name(self, name):
         # method = self.context['request'].method
         # if method in ['POST', 'PUT', 'PATCH'] and len(name) < 3:
