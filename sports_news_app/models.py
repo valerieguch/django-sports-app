@@ -1,9 +1,13 @@
 from django.db import models
 from django.contrib.auth.models import User
+import simple_history as sh
 
+sh.register(User)
 
 class Author(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
+    # NOTE: история изменений объекта
+    history = sh.models.HistoricalRecords()
 
     def __str__(self):
         return self.user.username
@@ -16,6 +20,7 @@ class Author(models.Model):
 class Tag(models.Model):
     name = models.CharField(max_length=255, unique=True)
     slug = models.SlugField(unique=True)
+    history = sh.models.HistoricalRecords()
     # article = models.ForeignKey(
     #     Article,
     #     null=True,
@@ -48,6 +53,7 @@ class Article(models.Model):
     content    = models.TextField(null=True)
     status     = models.IntegerField(choices=STATUS_CHOICES, default=DRAFT)
     tags       = models.ManyToManyField(Tag, blank=True)
+    history    = sh.models.HistoricalRecords()
 
     def __str__(self):
         return self.title
@@ -63,6 +69,7 @@ class Comment(models.Model):
     created_on = models.DateTimeField(auto_now_add=True)
     body       = models.TextField()
     active     = models.BooleanField(default=True)
+    history    = sh.models.HistoricalRecords()
 
     def __str__(self):
         if not self.body:

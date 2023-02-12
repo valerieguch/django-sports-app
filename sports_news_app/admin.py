@@ -1,15 +1,18 @@
 from django.contrib import admin
 from .models import Author, Tag, Article, Comment
-from import_export.admin import ExportActionModelAdmin
+from import_export.admin import ImportMixin, ExportActionMixin
+from simple_history.admin import SimpleHistoryAdmin
 
-# NOTE: экспорт данных из админки в Excel
+
+# NOTE: импорт и экспорт данных из админки
+# NOTE: история изменений объекта (админка)
 @admin.register(Author)
-class AuthorAdmin(ExportActionModelAdmin):
+class AuthorAdmin(ImportMixin, ExportActionMixin, SimpleHistoryAdmin):
     search_fields = ['user__icontains',]
 
 
 @admin.register(Article)
-class ArticleAdmin(ExportActionModelAdmin):
+class ArticleAdmin(ImportMixin, ExportActionMixin, SimpleHistoryAdmin):
     list_display = ('title', 'tags_list', 'status','created_on')
     list_filter = ('status',)
     search_fields = ['title__icontains', 'content__icontains']
@@ -20,12 +23,12 @@ class ArticleAdmin(ExportActionModelAdmin):
 
 
 @admin.register(Tag)
-class TagAdmin(ExportActionModelAdmin):
+class TagAdmin(ImportMixin, ExportActionMixin, SimpleHistoryAdmin):
     search_fields = ['name__icontains',]
     prepopulated_fields = {'slug': ('name',)}
 
 
 @admin.register(Comment)
-class CommentAdmin(ExportActionModelAdmin):
+class CommentAdmin(ImportMixin, ExportActionMixin, SimpleHistoryAdmin):
     list_display = ('author', 'body', 'article')
     search_fields = ['body__icontains',]
