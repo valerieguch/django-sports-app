@@ -15,6 +15,10 @@ class Author(models.Model):
     class Meta:
         verbose_name        = 'Автор'
         verbose_name_plural = 'Авторы'
+        # TODO use this permission somehow
+        permissions = (
+            ('moderate_articles', 'Право модерировать статьи'),
+        )
 
 
 class Tag(models.Model):
