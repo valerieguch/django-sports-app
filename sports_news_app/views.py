@@ -1,10 +1,10 @@
-from django.shortcuts import render
+from django.views.generic.list import ListView
 from .models import Article
 
 
-def index(request):
-    # TODO pagination?
-    articles = Article.objects.all().order_by('-created_on')[:20]
-    context = {'articles': articles}
+class IndexListView(ListView):
+    template_name = 'sports_news/index.html'
+    model         = Article
+    paginate_by   = 10
 
     return render(request, 'sports_news/index.html', context)
