@@ -8,7 +8,9 @@ from simple_history.admin import SimpleHistoryAdmin
 # NOTE: история изменений объекта (админка)
 @admin.register(Author)
 class AuthorAdmin(ImportMixin, ExportActionMixin, SimpleHistoryAdmin):
-    search_fields = ['user__icontains',]
+    search_fields = ['user__username__icontains',
+                     'user__first_name__icontains',
+                     'user__last_name__icontains']
 
 
 @admin.register(Article)
