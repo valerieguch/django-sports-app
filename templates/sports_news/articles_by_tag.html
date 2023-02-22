@@ -5,14 +5,13 @@
 {% endblock %}
 
 {% block top_content %}
-{# <h2 class="text-center">Новости спорта</h2> #}
 {# <p class="text-center pb-4">{% now "F j, H:i" %}</p> #}
 {% endblock %}
 
 {% block content %}
+<h4 class="text-center pb-4">Статьи с тегом "{{ object.name }}"</h4>
 <div class="row pb-4 row-cols-1 row-cols-lg-2 g-4">
-
-	{% for article in page_obj %}
+	{% for article in article_list %}
 	<div class="col">
 
 		<div class="card">
@@ -36,6 +35,5 @@
 </div>
 
 {# TODO: Make pagination stick to the bottom. Probably use CSS Grid for this. #}
-{% include './components/pagination-next-previous.html' %}
 
 {% endblock content%}

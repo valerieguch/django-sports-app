@@ -56,7 +56,7 @@ class Article(models.Model):
     updated_on = models.DateTimeField(auto_now=True)
     content    = models.TextField(null=True)
     status     = models.IntegerField(choices=STATUS_CHOICES, default=DRAFT)
-    tags       = models.ManyToManyField(Tag, blank=True)
+    tags       = models.ManyToManyField(Tag, blank=True, related_name='articles')
     history    = sh.models.HistoricalRecords()
 
     def __str__(self):
