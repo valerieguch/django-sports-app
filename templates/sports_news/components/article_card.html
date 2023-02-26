@@ -1,8 +1,10 @@
 <div class="card">
 	<div class="card-body">
 			<a href="{% url 'sports_news_app:article' article.slug %}" class="d-flex flex-column text-decoration-none">
-				<h5 class="pb-2 overflow-hidden text-dark">
+				<h5 class="overflow-hidden text-dark">
 					{{ article.title }}</h5>
+
+				<small class="text-muted pb-2">{{ article.created_on|date:"F d, Y" }}</small>
 
 				<p class="text-muted">{{ article.content|truncatechars:150 }}</p>
 			</a>
