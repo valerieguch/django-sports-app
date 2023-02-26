@@ -30,9 +30,12 @@ class IndexListView(ListView):
 def article_view(request, slug):
     article = get_object_or_404(Article, slug=slug)
 
+    comments = article.comments.get_queryset()
+
     context = {'article': article,
                'category_list': Category.objects.all(),
-               'selected_category': article.category}
+               'selected_category': article.category,
+               'comments': comments}
 
     return render(request, 'sports_news/article.html', context)
 

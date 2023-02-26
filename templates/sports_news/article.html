@@ -20,4 +20,20 @@
 
 </div>
 
+<hr class="hr mx-auto" style="max-width: 50rem;">
+
+<div class="mx-auto" style="max-width: 50rem;">
+	<h5>Комментарии &nbsp;&nbsp;<span class="text-primary">{{ comments.count }}</span></h5>
+
+	{% if comments %}
+
+		{% for comment in comments %}
+			{% include './components/comment.html' %}
+		{% endfor %}
+
+	{% else %}
+		<p class="text-muted"><i>Комментариев пока нет!</i></p>
+	{% endif %}
+</div>
+
 {% endblock content %}

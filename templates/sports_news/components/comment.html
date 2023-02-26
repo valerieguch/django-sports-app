@@ -1,0 +1,10 @@
+<div class="card border-0">
+	<div class="card-body">
+		<div class="pb-2">
+			<mark class="fs-6">{{ comment.author }}</mark>
+			<small class="text-muted">{{ comment.created_on|date }} в {{ comment.created_on|time }}</small>
+		</div>
+
+		<p class="card-text">{{ comment.body }}</p>
+	</div>
+</div>
