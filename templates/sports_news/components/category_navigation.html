@@ -1,6 +1,15 @@
 <div class="btn-group-vertical card p-0 mb-3" role="group">
-	<a href="{% url 'sports_news_app:index' %}" class="btn border-0 btn-primary text-start">Все категории</a>
+	{% if selected_category %}
+		<a href="{% url 'sports_news_app:index' %}" class="btn border-0 btn-outline-primary text-start">Все категории</a>
+	{% else %}
+		<a href="{% url 'sports_news_app:index' %}" class="btn border-0 btn-primary text-start">Все категории</a>
+	{% endif %}
+
 	{% for category in category_list %}
-		<a href="{% url 'sports_news_app:articles-by-category' category.slug %}" class="btn border-0 btn-outline-primary text-start">{{ category.name }}</a>
+		{% if category.name != selected_category.name %}
+			<a href="{% url 'sports_news_app:articles-by-category' category.slug %}" class="btn border-0 btn-outline-primary text-start">{{ category.name }}</a>
+		{% else %}
+			<a href="{% url 'sports_news_app:articles-by-category' category.slug %}" class="btn border-0 btn-primary text-start">{{ category.name }}</a>
+		{% endif %}
 	{% endfor %}
 </div>

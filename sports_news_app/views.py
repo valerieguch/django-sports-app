@@ -13,6 +13,7 @@ class IndexListView(ListView):
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(object_list=object_list, **kwargs)
         context['category_list'] = Category.objects.all()
+        context['selected_category'] = None
         return context
 
 
@@ -30,7 +31,8 @@ def article_view(request, slug):
     article = get_object_or_404(Article, slug=slug)
 
     context = {'article': article,
-               'category_list': Category.objects.all()}
+               'category_list': Category.objects.all(),
+               'selected_category': article.category}
 
     return render(request, 'sports_news/article.html', context)
 
@@ -43,6 +45,7 @@ class TagDetailView(DetailView):
         context = super().get_context_data(**kwargs)
         context['article_list'] = self.get_object().articles.all()
         context['category_list'] = Category.objects.all()
+        context['selected_category'] = None
         return context
 
 
@@ -54,4 +57,5 @@ class CategoryDetailView(DetailView):
         context = super().get_context_data(**kwargs)
         context['article_list'] = self.get_object().articles.all()
         context['category_list'] = Category.objects.all()
+        context['selected_category'] = self.get_object()
         return context
