@@ -40,7 +40,10 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'rest_framework',
+    'crispy_forms',
+    'crispy_bootstrap5',
     'sports_news_app',
+    'users',
     'import_export',
     'simple_history',
 ]
@@ -148,3 +151,5 @@ REST_FRAMEWORK = {
 # CRONJOBS = [
 #     ('*/1 * * * *', 'quickstart.tasks.my_scheduled_job')
 # ]
+
+CRISPY_TEMPLATE_PACK = 'bootstrap5'
