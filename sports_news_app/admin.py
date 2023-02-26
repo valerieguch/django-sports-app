@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Author, Tag, Article, Comment
+from .models import Author, Tag, Category, Article, Comment
 from import_export.admin import ImportMixin, ExportActionMixin
 from simple_history.admin import SimpleHistoryAdmin
 
@@ -26,6 +26,12 @@ class ArticleAdmin(ImportMixin, ExportActionMixin, SimpleHistoryAdmin):
 
 @admin.register(Tag)
 class TagAdmin(ImportMixin, ExportActionMixin, SimpleHistoryAdmin):
+    search_fields = ['name__icontains',]
+    prepopulated_fields = {'slug': ('name',)}
+
+
+@admin.register(Category)
+class CategoryAdmin(ImportMixin, ExportActionMixin, SimpleHistoryAdmin):
     search_fields = ['name__icontains',]
     prepopulated_fields = {'slug': ('name',)}
 

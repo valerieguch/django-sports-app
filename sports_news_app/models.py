@@ -41,6 +41,19 @@ class Tag(models.Model):
         verbose_name_plural = 'Теги'
 
 
+class Category(models.Model):
+    name = models.CharField(max_length=255, unique=True)
+    slug = models.SlugField(unique=True)
+    history = sh.models.HistoricalRecords()
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name        = 'Категория'
+        verbose_name_plural = 'Категории'
+
+
 class Article(models.Model):
     DRAFT = 0
     PUBLISHED = 1
@@ -57,6 +70,7 @@ class Article(models.Model):
     content    = models.TextField(null=True)
     status     = models.IntegerField(choices=STATUS_CHOICES, default=DRAFT)
     tags       = models.ManyToManyField(Tag, blank=True, related_name='articles')
+    category   = models.ForeignKey(Category, null=True, on_delete=models.SET_NULL, related_name='articles')
     history    = sh.models.HistoricalRecords()
 
     def __str__(self):

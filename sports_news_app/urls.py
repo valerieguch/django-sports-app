@@ -6,4 +6,7 @@ app_name = 'sports_news_app'
 urlpatterns = [
     path('', views.IndexListView.as_view(), name='index'),
     path('tags/<str:slug>', views.TagDetailView.as_view(), name='articles-by-tag'),
+    path('category/<str:slug>', views.CategoryDetailView.as_view(), name='articles-by-category'),
+    # path('articles/<str:slug>', views.ArticleDetailView.as_view(), name='article'),
+    path('articles/<str:slug>', views.article_view, name='article'),
 ]

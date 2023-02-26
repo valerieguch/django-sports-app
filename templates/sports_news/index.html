@@ -9,26 +9,17 @@
 {# <p class="text-center pb-4">{% now "F j, H:i" %}</p> #}
 {% endblock %}
 
+{% block navigation %}
+{% include './components/category_navigation.html' %}
+{% endblock navigation %}
+
 {% block content %}
 <div class="row pb-4 row-cols-1 row-cols-lg-2 g-4">
 
 	{% for article in page_obj %}
 	<div class="col">
 
-		<div class="card">
-			<div class="card-body">
-					<a href="#" class="d-flex flex-column text-decoration-none">
-						<h5 class="pb-2 overflow-hidden text-dark">
-							{{ article.title }}</h5>
-
-						<p class="text-muted">{{ article.content|truncatechars:150 }}</p>
-					</a>
-
-					{% for tag in article.tags.all %}
-					<a href="{% url 'sports_news_app:articles-by-tag' tag.slug %}" class="badge rounded-pill bg-primary text-decoration-none text-light">{{ tag.name }}</a>
-					{% endfor %}
-			</div>
-		</div>
+		{% include './components/article_card.html' %}
 
 	</div>
 	{% endfor %}
@@ -38,4 +29,4 @@
 {# TODO: Make pagination stick to the bottom. Probably use CSS Grid for this. #}
 {% include './components/pagination-next-previous.html' %}
 
-{% endblock content%}
+{% endblock content %}

@@ -1,0 +1,14 @@
+<div class="card">
+	<div class="card-body">
+			<a href="{% url 'sports_news_app:article' article.slug %}" class="d-flex flex-column text-decoration-none">
+				<h5 class="pb-2 overflow-hidden text-dark">
+					{{ article.title }}</h5>
+
+				<p class="text-muted">{{ article.content|truncatechars:150 }}</p>
+			</a>
+
+			{% for tag in article.tags.all %}
+			<a href="{% url 'sports_news_app:articles-by-tag' tag.slug %}" class="badge rounded-pill bg-primary text-decoration-none text-light">{{ tag.name }}</a>
+			{% endfor %}
+	</div>
+</div>
