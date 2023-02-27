@@ -1,7 +1,8 @@
-from django.views.generic import ListView, DetailView, CreateView
+from django.views.generic import ListView, DetailView, CreateView, UpdateView
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.shortcuts import get_object_or_404, render
 from django.urls import reverse_lazy
+from unidecode import unidecode
 from django.utils.text import slugify
 from .models import Article, Tag, Category
 from django.contrib import messages
@@ -59,7 +60,7 @@ class ArticleCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView)
         obj = form.save(commit=False)
         print(self.request.user.author)
         obj.author = self.request.user.author
-        obj.slug = slugify(form.cleaned_data['title'])
+        obj.slug = slugify(unidecode(form.cleaned_data['title']))
         obj.save()
         return super().form_valid(form)
 
