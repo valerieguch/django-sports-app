@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from sports_news_app.models import Author, Tag, Article, Comment
+from sports_news_app.models import Author, Tag, Category, Article, Comment
 from django.contrib.auth.models import User, Group
 
 
@@ -35,6 +35,13 @@ class TagSerializer(serializers.HyperlinkedModelSerializer):
         if len(name) < 3:
             raise serializers.ValidationError("Имя тега короче 3 знаков.")
         return True
+
+
+class CategorySerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = Category
+        # fields = '__all__'
+        fields = ['name', 'slug']
 
 
 class ArticleSerializer(serializers.HyperlinkedModelSerializer):
