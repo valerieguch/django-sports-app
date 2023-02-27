@@ -42,6 +42,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'crispy_forms',
     'crispy_bootstrap5',
+    'django_extensions',
+
     'sports_news_app',
     'users',
     'import_export',
