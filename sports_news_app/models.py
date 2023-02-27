@@ -64,6 +64,7 @@ class Article(models.Model):
 
     title      = models.CharField(max_length=200, unique=True, null=True)
     slug       = models.SlugField(max_length=200, unique=True, null=True)
+    # TODO make author required
     author     = models.ForeignKey(Author, null=True, blank=True, on_delete=models.SET_NULL, related_name='articles')
     created_on = models.DateTimeField(auto_now_add=True)
     updated_on = models.DateTimeField(auto_now=True)

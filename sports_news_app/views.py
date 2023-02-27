@@ -44,7 +44,7 @@ def article_view(request, slug):
 
 
 class ArticleCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
-    model = Article
+    model  = Article
     fields = ['title', 'content', 'tags', 'category']
 
     def has_permission(self):
@@ -52,17 +52,34 @@ class ArticleCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView)
         return hasattr(self.request.user, 'author')
 
     def get_success_url(self):
-        messages.success(
-            self.request, 'Your post has been created successfully.')
-        return reverse_lazy('sports_news_app:index')
+        messages.success(self.request, 'Статья успешно создана.')
+        return reverse_lazy('sports_news_app:article', kwargs={'slug': self.object.slug})
 
     def form_valid(self, form):
         obj = form.save(commit=False)
-        print(self.request.user.author)
         obj.author = self.request.user.author
         obj.slug = slugify(unidecode(form.cleaned_data['title']))
         obj.save()
         return super().form_valid(form)
+
+
+class ArticleUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
+    model  = Article
+    fields = ['title', 'content', 'tags', 'category']
+
+    def has_permission(self):
+        # TODO use groups and permissions instead of a db table
+        return hasattr(self.request.user, 'author')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['update'] = True
+
+        return context
+
+    def get_success_url(self):
+        messages.success(self.request, 'Статья обновлена.')
+        return reverse_lazy('sports_news_app:article', kwargs={'slug': self.object.slug})
 
 
 class TagDetailView(DetailView):
