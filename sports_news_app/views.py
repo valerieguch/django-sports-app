@@ -1,6 +1,6 @@
 from django.views.generic import ListView, DetailView, CreateView, UpdateView
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import Http404, get_object_or_404, render
 from django.urls import reverse_lazy
 from unidecode import unidecode
 from django.utils.text import slugify
@@ -19,6 +19,9 @@ class IndexListView(ListView):
         context['selected_category'] = None
         return context
 
+    def get_queryset(self):
+        return Article.objects.filter(status=Article.PUBLISHED)
+
 
 # class ArticleDetailView(DetailView):
 #     template_name = 'sports_news/article.html'
@@ -32,6 +35,8 @@ class IndexListView(ListView):
 
 def article_view(request, slug):
     article = get_object_or_404(Article, slug=slug)
+    if article.status != Article.PUBLISHED:
+        raise Http404("Atricle not found")
 
     comments = article.comments.get_queryset()
 
@@ -88,7 +93,7 @@ class TagDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['article_list'] = self.get_object().articles.all()
+        context['article_list'] = self.get_object().articles.filter(status=Article.PUBLISHED)
         context['category_list'] = Category.objects.all()
         context['selected_category'] = None
         return context
@@ -100,7 +105,7 @@ class CategoryDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['article_list'] = self.get_object().articles.all()
+        context['article_list'] = self.get_object().articles.filter(status=Article.PUBLISHED)
         context['category_list'] = Category.objects.all()
         context['selected_category'] = self.get_object()
         return context
