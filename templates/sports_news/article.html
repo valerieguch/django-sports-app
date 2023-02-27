@@ -15,7 +15,12 @@
 	<div class="mx-auto" style="max-width: 50rem;">
 		{# TODO article.context should probably contain html instead of raw text #}
 		<div class="fs-5 pb-3">{{ article.content }}</div>
+
+		{% if article.author %}
+		<small class="text-muted pb-2">{{ article.author }}, {{ article.created_on|date:"F d, Y" }}</small>
+		{% else %}
 		<small class="text-muted pb-2">{{ article.created_on|date:"F d, Y" }}</small>
+		{% endif %}
 	</div>
 
 </div>

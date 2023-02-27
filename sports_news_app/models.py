@@ -10,6 +10,9 @@ class Author(models.Model):
     history = sh.models.HistoricalRecords()
 
     def __str__(self):
+        full_name = self.user.get_full_name()
+        if full_name:
+            return f'{full_name} ({self.user.username})'
         return self.user.username
 
     class Meta:

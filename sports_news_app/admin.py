@@ -15,7 +15,7 @@ class AuthorAdmin(ImportMixin, ExportActionMixin, SimpleHistoryAdmin):
 
 @admin.register(Article)
 class ArticleAdmin(ImportMixin, ExportActionMixin, SimpleHistoryAdmin):
-    list_display = ('title', 'tags_list', 'status','created_on')
+    list_display = ('title', 'author', 'tags_list', 'status','created_on')
     list_filter = ('status',)
     search_fields = ['title__icontains', 'content__icontains']
     prepopulated_fields = {'slug': ('title',)}
