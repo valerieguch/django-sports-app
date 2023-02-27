@@ -9,4 +9,5 @@ urlpatterns = [
     path('category/<str:slug>', views.CategoryDetailView.as_view(), name='articles-by-category'),
     # path('articles/<str:slug>', views.ArticleDetailView.as_view(), name='article'),
     path('articles/<str:slug>', views.article_view, name='article'),
+    path('create-article/', views.ArticleCreateView.as_view(), name='create-article'),
 ]
