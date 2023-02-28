@@ -1,4 +1,4 @@
-from django.views.generic import ListView, DetailView, CreateView, UpdateView
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.shortcuts import Http404, get_object_or_404, render
 from django.urls import reverse_lazy
@@ -91,6 +91,20 @@ class ArticleUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView)
     def get_success_url(self):
         messages.success(self.request, 'Статья обновлена.')
         return reverse_lazy('sports_news_app:article', kwargs={'slug': self.object.slug})
+
+
+class ArticleDeleteView(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
+    model = Article
+
+    def has_permission(self):
+        # TODO use groups and permissions instead of a db table
+        if not hasattr(self.request.user, 'author'):
+            return False
+        return self.get_object().author == self.request.user.author
+
+    def get_success_url(self):
+        messages.success(self.request, 'Статья удалена.')
+        return reverse_lazy('sports_news_app:index')
 
 
 class TagDetailView(DetailView):
