@@ -10,12 +10,15 @@
 
 {% block content %}
 <div class="row pb-4">
+	{% if article.author.user == user %}
 	<div class="mx-auto pb-3 d-flex gap-2" style="max-width: 50rem;">
 		<a href="{% url "sports_news_app:update-article" article.slug %}" class="btn btn-primary">Редактировать</a>
 		<a href="#" class="btn btn-danger">Удалить</a>
 	</div>
 
 	<hr class="hr mx-auto" style="max-width: 50rem;">
+	{% endif %}
+
 
 	{% if is_not_published %}
 	<div class="mx-auto alert alert-warning" style="max-width: 50rem;">Статус: {{ article.get_status_display }}</div>

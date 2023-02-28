@@ -78,7 +78,9 @@ class ArticleUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView)
 
     def has_permission(self):
         # TODO use groups and permissions instead of a db table
-        return hasattr(self.request.user, 'author')
+        if not hasattr(self.request.user, 'author'):
+            return False
+        return self.get_object().author == self.request.user.author
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
