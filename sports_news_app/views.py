@@ -35,15 +35,19 @@ class IndexListView(ListView):
 
 def article_view(request, slug):
     article = get_object_or_404(Article, slug=slug)
-    if article.status != Article.PUBLISHED:
-        raise Http404("Atricle not found")
+    if article.status != Article.PUBLISHED and (
+        not hasattr(request.user, 'author') or request.user.author != article.author
+    ):
+        raise Http404('Atricle not found')
 
     comments = article.comments.get_queryset()
-
-    context = {'article': article,
-               'category_list': Category.objects.all(),
-               'selected_category': article.category,
-               'comments': comments}
+    context = {
+        'article': article,
+        'category_list': Category.objects.all(),
+        'selected_category': article.category,
+        'comments': comments,
+        'is_not_published': article.status != Article.PUBLISHED
+    }
 
     return render(request, 'sports_news/article.html', context)
 

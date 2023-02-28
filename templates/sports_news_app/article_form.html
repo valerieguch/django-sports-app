@@ -25,8 +25,9 @@
       {% endif %}
     </div>
 
+    {# TODO checkboxes #}
     <div class="form-group pb-3">
-      Теги:<br>
+      Теги <span class="text-muted">(зажмите <code>Ctrl</code>, чтобы выбрать несколько)</span>:<br>
       <select class="custom-select w-25" name="tags" id="id_tags" multiple>
         {% for name, value in form.tags.field.choices %}
         <option value="{{ name }}">{{ value }}</option>
@@ -39,7 +40,7 @@
 
     <div class="form-group pb-3">
       Категория:<br>
-      <select class="custom-select w-25" name="category" id="id_category" multiple>
+      <select class="custom-select w-25" name="category" id="id_category">
         {% for name, value in form.category.field.choices %}
         <option value="{{ name }}">{{ value }}</option>
         {% endfor %}

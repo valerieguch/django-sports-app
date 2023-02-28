@@ -10,9 +10,14 @@
 
 {% block content %}
 <div class="row pb-4">
+	{% if is_not_published %}
+	<div class="mx-auto alert alert-warning" style="max-width: 50rem;">Статус: {{ article.get_status_display }}</div>
+	{% endif %}
+
 	<h3 class="text-center pb-3">{{ article.title }}</h3>
 
 	<div class="mx-auto" style="max-width: 50rem;">
+
 		{# TODO article.context should probably contain html instead of raw text #}
 		<div class="fs-5 pb-3">{{ article.content }}</div>
 
