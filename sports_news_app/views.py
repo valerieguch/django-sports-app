@@ -54,7 +54,7 @@ def article_view(request, slug):
 
 class ArticleCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
     model  = Article
-    fields = ['title', 'content', 'tags', 'category']
+    fields = ['title', 'content', 'tags', 'category', 'status']
 
     def has_permission(self):
         # TODO use groups and permissions instead of a db table
@@ -74,7 +74,7 @@ class ArticleCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView)
 
 class ArticleUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
     model  = Article
-    fields = ['title', 'content', 'tags', 'category']
+    fields = ['title', 'content', 'tags', 'category', 'status']
 
     def has_permission(self):
         # TODO use groups and permissions instead of a db table
