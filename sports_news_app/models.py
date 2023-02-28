@@ -65,16 +65,16 @@ class Article(models.Model):
         (1, "Опубликовано")
     )
 
-    title      = models.CharField(max_length=200, unique=True, null=True)
+    title      = models.CharField(max_length=200, unique=True, null=True, verbose_name='Заголовок')
     slug       = models.SlugField(max_length=200, unique=True, null=True)
     # TODO make author required
     author     = models.ForeignKey(Author, null=True, blank=True, on_delete=models.SET_NULL, related_name='articles')
     created_on = models.DateTimeField(auto_now_add=True)
     updated_on = models.DateTimeField(auto_now=True)
-    content    = models.TextField(null=True)
-    status     = models.IntegerField(choices=STATUS_CHOICES, default=DRAFT)
-    tags       = models.ManyToManyField(Tag, blank=True, related_name='articles')
-    category   = models.ForeignKey(Category, null=True, on_delete=models.SET_NULL, related_name='articles')
+    content    = models.TextField(null=True, verbose_name='Текст')
+    status     = models.IntegerField(choices=STATUS_CHOICES, default=DRAFT, verbose_name='Статус')
+    tags       = models.ManyToManyField(Tag, blank=True, related_name='articles', verbose_name='Теги')
+    category   = models.ForeignKey(Category, null=True, on_delete=models.SET_NULL, related_name='articles', verbose_name='Категория')
     history    = sh.models.HistoricalRecords()
 
     def __str__(self):
